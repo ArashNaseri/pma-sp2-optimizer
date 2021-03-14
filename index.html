@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>PMA-SP2 Optimizer</title>
+
+  <!-- Load styles -->
+  <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="main">
+
+    <h1>PMA-SP2 Optimizer</h1>
+
+    <p>
+      This simple web app is designed to estimate the optimal experimental
+      parameters for tandem PMA-SP2 experiments. The app chooses the optimal
+      simulated error for a specific range of parameters about those chosen.
+    </p>
+
+    <h2>Inputs</h2>
+
+    <p>
+      <div class="control">
+        <div class="control-label">Number concentration
+        <span class="control-unit">#/cm<sup>3</sup></span></div> <br>
+        <input class="textinput" id="Ntot_in" type="number" min="1" max="100000" value="3160">
+      </div>
+
+      <div class="control">
+        <div class="control-label">Time
+        <span class="control-unit">hr</span></div> <br>
+        <input class="textinput" id="time_in" type="number" min="0.01" max="10" value="1.2">
+      </div>
+
+      <div class="control">
+        <div class="control-label">Correlation
+        <span class="control-unit">[0,1]</span></div> <br>
+        <input class="textinput" id="R12_in" type="number" min="0.1" max="1" value="0.5">
+      </div>
+    </p>
+
+    <h2>Best simulation</h2>
+
+    of <div style="display:inline;" id="no_out"></div>
+
+    <p>
+      <div class="out">
+        <div class="control-label">Resolution</div> <br>
+        <div class="textoutput" id="Rm_out"></div>
+      </div>
+
+      <div class="out">
+        <div class="control-label">No. of PMA setpoints
+        <span class="control-unit">#</span></div> <br>
+        <div class="textoutput" id="nc_out"></div>
+      </div>
+
+      <div class="out">
+        <div class="control-label">No. of SP2 bins
+        <span class="control-unit">#</span></div> <br>
+        <div class="textoutput" id="ns_out"></div>
+      </div>
+
+      <div class="out">
+        <div class="control-label">SP2 counts / PMA setpoint
+        <span class="control-unit">#</span></div> <br>
+        <div class="textoutput" id="Ns0_out"></div>
+      </div>
+
+      <br>
+
+      <div class="out">
+        <div class="control-label">Time
+        <span class="control-unit">hr</span></div> <br>
+        <div class="textoutput" id="time_out"></div>
+      </div>
+
+      <div class="out">
+        <div class="control-label">Correlation
+        <span class="control-unit">[0,1]</span></div> <br>
+        <div class="textoutput" id="R12_out"></div>
+      </div>
+
+      <br>
+
+      <div class="out">
+        <div class="control-label">Error
+        <span class="control-unit"></span></div> <br>
+        <div class="textoutput" id="err_out" style="color:red;"></div>
+      </div>
+    </p>
+
+  </div>
+
+  <!-- Read in data as a script -->
+  <script src="js/mcmc.js"></script>
+
+  <script>
+
+    /* Reorg. into a set of arrays */
+    Rm = [];
+    ns = []; nc = [];
+    Ns = []; Ntot = []; Ns_avg = [];
+    R12 = [];
+    time = []; lam = [];
+    err = [];
+    for (ii = 0; ii < data.length; ii++) {
+      Rm.push(data[ii].Rm);
+      ns.push(data[ii].ns);
+      nc.push(data[ii].nc);
+      Ns.push(data[ii].Ns);
+      Ntot.push(data[ii].Ntot);
+      Ns_avg.push(data[ii].Ns_avg);
+      R12.push(data[ii].R12);
+      time.push(data[ii].time);
+      lam.push(data[ii].Lambda);
+      err.push(data[ii].Error);
+    }
+
+
+    /* Function to filter out based on Ntot */
+    function filterA(Ntot, a, time, b, R12, c, vec) {
+
+      /* Filter by Ntot */
+      outa = []; outt = []; outR1 = []
+      for (ii = 0; ii < Ntot.length; ii++) {
+        if ((Ntot[ii] <= (a * 3.16)) && (Ntot[ii] >= (a / 3.16))) {
+          outa.push(vec[ii]);
+          outt.push(time[ii]);
+          outR1.push(R12[ii]);
+        }
+      }
+
+      /* Filter by time */
+      outb = []; outR2 = [];
+      for (tt = 0; tt < outt.length; tt++) {
+        if (outt[tt] <= (b * 60 * 60)) {
+          outb.push(outa[tt]);
+          outR2.push(outR1[tt])
+        }
+      }
+
+      /* Filter by R12 */
+      out = [];
+      for (rr = 0; rr < outR2.length; rr++) {
+        if (((1-outR2[rr]) >= (1-(c * 1.2))) && ((1-outR2[rr]) <= (1-(c / 1.2)))) {
+          out.push(outb[rr]);
+        }
+      }
+
+      if (out.length === 0) {
+        out = 0;
+      }
+
+      return out;
+    }
+
+
+    /* Function to get the smallest index. */
+    /* Used to get smallest error */
+    function indexOfSmallest(a) {
+      var lowest = 0;
+      for (var ii = 1; ii < a.length; ii++) {
+        if (a[ii] < a[lowest]) lowest = ii;
+      }
+      return lowest;
+    }
+
+
+    /* Function to update results */
+    function update() {
+
+      a = document.getElementById("Ntot_in").value;
+      b = document.getElementById("time_in").value;
+      c = document.getElementById("R12_in").value;
+
+      err0 = filterA(Ntot, a, time, b, R12, c, err);
+
+      console.log(err0.length); /* number of simulations considered */
+
+      document.getElementById("no_out").innerHTML = err0.length.toString();
+
+      idx = indexOfSmallest(err0);
+
+      err0 = err0[idx];
+      document.getElementById("err_out").innerHTML = err0.toString().substr(0,5);
+
+      Rm0 = filterA(Ntot, a, time, b, R12, c, Rm)[idx];
+      console.log(Rm0)
+      document.getElementById("Rm_out").innerHTML = Rm0.toString().substr(0,5);
+
+      nc0 = filterA(Ntot, a, time, b, R12, c, nc)[idx];
+      document.getElementById("nc_out").innerHTML = nc0.toString().substr(0,5);
+
+      ns0 = filterA(Ntot, a, time, b, R12, c, ns)[idx];
+      document.getElementById("ns_out").innerHTML = ns0.toString().substr(0,5);
+
+      Ns0 = filterA(Ntot, a, time, b, R12, c, Ns)[idx];
+      document.getElementById("Ns0_out").innerHTML = Ns0.toString().substr(0,5);
+
+      time0 = filterA(Ntot, a, time, b, R12, c, time)[idx] / 60 / 60;
+      document.getElementById("time_out").innerHTML = time0.toString().substr(0,5);
+
+      R120 = filterA(Ntot, a, time, b, R12, c, R12)[idx];
+      document.getElementById("R12_out").innerHTML = R120.toString().substr(0,5);
+
+    }
+
+
+    update();
+    document.getElementById("Ntot_in").addEventListener("change", update);
+    document.getElementById("time_in").addEventListener("change", update);
+    document.getElementById("R12_in").addEventListener("change", update);
+
+  </script>
+
+</body>
