@@ -90,6 +90,28 @@ div.control {
   border: 2px solid #9BD6FF;
 }
 
+select {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 11pt;
+  border-radius: 3pt;
+  font-weight: 300;
+  padding: 5px 10px 5px 10px;
+  border: 2px solid #E3E3E3;
+  background-color: white;
+  transition: all 0.3s ease 0s;
+  width: 90%;
+}
+
+select:hover {
+  border: 2px solid #9BD6FF;
+}
+
+option {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 11pt;
+  font-weight: 300;
+}
+
 div.out {
   padding: 0px 30px 5px 0px;
   display: inline-block;

@@ -39,7 +39,21 @@
       <div class="control">
         <div class="control-label">Correlation (R<sub>12</sub>)
         <span class="control-unit">[0,1]</span></div> <br>
-        <input class="textinput" id="R12_in" type="number" min="0.1" max="1" value="0.5">
+        <select id="R12_in">
+          <option value="0.00,0.40">< 0.40</option>
+          <option value="0.40,0.55">0.40 - 0.55</option>
+          <option value="0.55,0.75">0.55 - 0.75</option>
+          <option value="0.75,0.90">0.75 - 0.90</option>
+          <option value="0.90,0.95">0.90 - 0.95</option>
+          <option value="0.95,0.98">0.95 - 0.98</option>
+          <option value="0.98,1.00">> 0.98</option>
+        </select>
+
+        <br>
+
+        <div>
+          <img src="imgs/0.png" id="dist_img" style="height:100px;border:1px solid #555;border-radius:2px;margin-top:5px;">
+        </div>
       </div>
     </p>
 
@@ -54,13 +68,13 @@
       </div>
 
       <div class="out">
-        <div class="control-label">No. of PMA setpoints (n<sub>c</sub>)
+        <div class="control-label">No. of PMA setpoints per decade (n<sub>c</sub>')
         <span class="control-unit">#</span></div> <br>
         <div class="textoutput" id="nc_out"></div>
       </div>
 
       <div class="out">
-        <div class="control-label">No. of SP2 bins (n<sub>s</sub>)
+        <div class="control-label">No. of SP2 bins per decade (n<sub>s</sub>')
         <span class="control-unit">#</span></div> <br>
         <div class="textoutput" id="ns_out"></div>
       </div>
@@ -90,7 +104,7 @@
       <div class="out">
         <div class="control-label">Error
         <span class="control-unit"></span></div> <br>
-        <div class="textoutput" id="err_out" style="color:red;"></div>
+        <div class="textoutput" id="err_out" style="color:#FF6961;"></div>
       </div>
     </p>
 
@@ -145,9 +159,12 @@
       }
 
       /* Filter by R12 */
+      c = c.split(','); /* Interpret select value */
+      c1 = parseFloat(c[0]);
+      c2 = parseFloat(c[1]);
       out = [];
       for (rr = 0; rr < outR2.length; rr++) {
-        if (((1-outR2[rr]) >= (1-(c * 1.2))) && ((1-outR2[rr]) <= (1-(c / 1.2)))) {
+        if ((outR2[rr] > c1) && (outR2[rr] <= c2)) {
           out.push(outb[rr]);
         }
       }
@@ -170,6 +187,16 @@
       return lowest;
     }
 
+    /* Function to get the largest index. */
+    /* Used to get largest of array */
+    function indexOfLargest(a) {
+      var largest = 0;
+      for (var ii = 1; ii < a.length; ii++) {
+        if (a[ii] > a[largest]) largest = ii;
+      }
+      return largest;
+    }
+
 
     /* Function to update results */
     function update() {
@@ -190,7 +217,7 @@
       document.getElementById("err_out").innerHTML = err0.toString().substr(0,5);
 
       Rm0 = filterA(Ntot, a, time, b, R12, c, Rm)[idx];
-      console.log(Rm0)
+
       document.getElementById("Rm_out").innerHTML = Rm0.toString().substr(0,5);
 
       nc0 = filterA(Ntot, a, time, b, R12, c, nc)[idx];
@@ -208,8 +235,10 @@
       R120 = filterA(Ntot, a, time, b, R12, c, R12)[idx];
       document.getElementById("R12_out").innerHTML = R120.toString().substr(0,5);
 
+      c = c.split(','); /* Interpret select value */
+      c1 = parseFloat(c[0]);
+      document.getElementById("dist_img").src = "imgs/" + c1.toString().substr(0,4) + ".png";
     }
-
 
     update();
     document.getElementById("Ntot_in").addEventListener("change", update);
