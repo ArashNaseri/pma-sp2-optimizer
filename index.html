@@ -44,7 +44,7 @@
         <span class="control-unit">#/cm<sup>3</sup></span></div> <br>
         <input class="textinput" id="Ntot_in" type="number" min="1" max="100000" value="3162.3"> <br>
         <div class="control-unit">
-          (<div id="Ntot_in_down" style="display:inline;">1000</div> -
+          (<div id="Ntot_in_down" style="display:inline;">1000</div> to
           <div id="Ntot_in_up" style="display:inline;">10000</div>
           #/cm<sup>3</sup>)
         </div>
@@ -198,8 +198,8 @@
         }
       }
 
-      if (out.length === 0) {
-        out = 0;
+      if (out.length == []) {
+        out = "-";
       }
 
       return out;
@@ -238,14 +238,19 @@
 
       console.log(err0.length); /* number of simulations considered */
 
-      /* update range for Ntot */
-      document.getElementById("Ntot_in_down").innerHTML = Math.round(a / a_factor);
-      document.getElementById("Ntot_in_up").innerHTML = Math.round(a * a_factor);
+      /* Update range for Ntot. */
+      document.getElementById("Ntot_in_down").innerHTML = (a / a_factor).toExponential(1);
+      document.getElementById("Ntot_in_up").innerHTML = (a * a_factor).toExponential(1);
 
       document.getElementById("no_out").innerHTML = err0.length.toString();
+      if (err0 == "-") {  /* in this case, correct to zero */
+        document.getElementById("no_out").innerHTML = "0";
+      }
 
+      /* Index in Ntot-, time-, R12-selected array */
       idx = indexOfSmallest(err0);
 
+      /* Update the corresponding outputs */
       err0 = err0[idx];
       document.getElementById("err_out").innerHTML = err0.toString().substr(0,5);
 
@@ -261,8 +266,12 @@
       Ns0 = filterA(Ntot, a, time, b, R12, c, Ns)[idx];
       document.getElementById("Ns0_out").innerHTML = Ns0.toString().substr(0,5);
 
-      time0 = filterA(Ntot, a, time, b, R12, c, time)[idx] / 60 / 60;
-      document.getElementById("time_out").innerHTML = time0.toString().substr(0,5);
+      time0 = filterA(Ntot, a, time, b, R12, c, time)[idx];
+      if (time0 == "-") {  /* because of /60, explicitly check for "-" returned */
+        document.getElementById("time_out").innerHTML = "-";
+      } else {
+        document.getElementById("time_out").innerHTML = (time0 / 60 / 60).toString().substr(0,5);
+      }
 
       R120 = filterA(Ntot, a, time, b, R12, c, R12)[idx];
       document.getElementById("R12_out").innerHTML = R120.toString().substr(0,5);
