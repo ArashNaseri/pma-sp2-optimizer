@@ -115,7 +115,11 @@ function update() {
   document.getElementById("nc_out").innerHTML = nc0.toString().substr(0, 5);
 
   ns0 = filterA(Ntot, a, time, b, R12, c, ns)[idx];
-  document.getElementById("ns_out").innerHTML = ns0.toString().substr(0, 5);
+  if (ns0 > 100) {
+    document.getElementById("ns_out").innerHTML = "~100";
+  } else {
+    document.getElementById("ns_out").innerHTML = ns0.toString().substr(0, 5);
+  }
 
   Ns0 = filterA(Ntot, a, time, b, R12, c, Ns)[idx];
   document.getElementById("Ns0_out").innerHTML = Ns0.toString().substr(0, 5);
