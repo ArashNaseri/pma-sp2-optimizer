@@ -35,7 +35,7 @@
       any simulation with a time below that specified. In other words, if the
       optimal simulation occurs in half the time, that simulation is shown
       in the output. For the correlation, specifying the width of the m<sub>p</sub>-m<sub>rBC</sub>
-      distribution, the range if shown explicitly in the dropdown menu.
+      distribution, the range is shown explicitly in the dropdown menu.
     </p>
 
     <h2>Inputs</h2>
@@ -257,7 +257,7 @@
       document.getElementById("err_out").innerHTML = err0.toString().substr(0,5);
 
       Rm0 = filterA(Ntot, a, time, b, R12, c, Rm)[idx];
-      document.getElementById("Rm_out").innerHTML = Rm0.toString().substr(0,5);
+      document.getElementById("Rm_out").innerHTML = Rm0.toString().substr(0,3);
 
       nc0 = filterA(Ntot, a, time, b, R12, c, nc)[idx];
       document.getElementById("nc_out").innerHTML = nc0.toString().substr(0,5);
@@ -272,11 +272,11 @@
       if (time0 == "-") {  /* because of /60, explicitly check for "-" returned */
         document.getElementById("time_out").innerHTML = "-";
       } else {
-        document.getElementById("time_out").innerHTML = (time0 / 60 / 60).toString().substr(0,5);
+        document.getElementById("time_out").innerHTML = (time0 / 60 / 60).toString().substr(0,4);
       }
 
       R120 = filterA(Ntot, a, time, b, R12, c, R12)[idx];
-      document.getElementById("R12_out").innerHTML = R120.toString().substr(0,5);
+      document.getElementById("R12_out").innerHTML = R120.toString().substr(0,4);
 
       c = c.split(','); /* Interpret select value */
       c1 = parseFloat(c[0]);
