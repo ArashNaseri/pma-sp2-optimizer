@@ -41,48 +41,52 @@
     <h2>Inputs</h2>
 
     <p>
-      <div class="control">
-        <div class="control-label">No. concentration (N<sub>tot</sub>)
-        <span class="control-unit">#/cm<sup>3</sup></span></div> <br>
-        <input class="textinput" id="Ntot_in" type="number" min="1" max="100000" value="3162.3"> <br>
-        <div class="control-unit">
-          (<div id="Ntot_in_down" style="display:inline;">1000</div> to
-          <div id="Ntot_in_up" style="display:inline;">10000</div>
-          #/cm<sup>3</sup>)
-        </div>
+    <div class="control">
+      <div class="control-label">No. concentration (N<sub>tot</sub>)
+        <span class="control-unit">#/cm<sup>3</sup></span>
+      </div> <br>
+      <input class="textinput" id="Ntot_in" type="number" min="1" max="100000" value="3162.3"> <br>
+      <div class="control-unit">
+        (<div id="Ntot_in_down" style="display:inline;">1000</div> to
+        <div id="Ntot_in_up" style="display:inline;">10000</div>
+        #/cm<sup>3</sup>)
       </div>
+    </div>
 
-      <div class="control">
-        <div class="control-label">Time (t)
-        <span class="control-unit">hrs</span></div> <br>
-        <input class="textinput" id="time_in" type="number" min="0.01" max="10" value="1.2">
-        <div class="control-unit">
-          (Maximum is 10 hrs)
-        </div>
+    <div class="control">
+      <div class="control-label">Time (t)
+        <span class="control-unit">hrs</span>
+      </div> <br>
+      <input class="textinput" id="time_in" type="number" min="0.01" max="10" value="1.2">
+      <div class="control-unit">
+        (Maximum is 10 hrs)
       </div>
+    </div>
+
+    <br>
+
+    <div class="control">
+      <div class="control-label">Correlation (R<sub>12</sub>)
+        <span class="control-unit">[0,1]</span>
+      </div> <br>
+      <select id="R12_in">
+        <option value="0.00,0.40">
+          < 0.40</option>
+        <option value="0.40,0.55">0.40 - 0.55</option>
+        <option value="0.55,0.75">0.55 - 0.75</option>
+        <option value="0.75,0.90">0.75 - 0.90</option>
+        <option value="0.90,0.95">0.90 - 0.95</option>
+        <option value="0.95,0.98">0.95 - 0.98</option>
+        <option value="0.98,1.00">> 0.98</option>
+      </select>
 
       <br>
 
-      <div class="control">
-        <div class="control-label">Correlation (R<sub>12</sub>)
-        <span class="control-unit">[0,1]</span></div> <br>
-        <select id="R12_in">
-          <option value="0.00,0.40">< 0.40</option>
-          <option value="0.40,0.55">0.40 - 0.55</option>
-          <option value="0.55,0.75">0.55 - 0.75</option>
-          <option value="0.75,0.90">0.75 - 0.90</option>
-          <option value="0.90,0.95">0.90 - 0.95</option>
-          <option value="0.95,0.98">0.95 - 0.98</option>
-          <option value="0.98,1.00">> 0.98</option>
-        </select>
-
-        <br>
-
-        <!-- Phantom width image. Replaced accordingly in script. -->
-        <div>
-          <img src="imgs/0.png" id="dist_img" style="height:100px;border:1px solid #555;border-radius:3pt;margin-top:3px;">
-        </div>
+      <!-- Phantom width image. Replaced accordingly in script. -->
+      <div>
+        <img src="imgs/0.png" id="dist_img" style="height:100px;border:1px solid #555;border-radius:3pt;margin-top:3px;">
       </div>
+    </div>
     </p>
 
     <h2>Recommended parameters</h2>
@@ -90,50 +94,56 @@
     Lowest error of <div style="display:inline;" id="no_out"></div> simulations
 
     <p>
-      <div class="out">
-        <div class="control-label">Resolution (R<sub>m</sub>)</div> <br>
-        <div class="textoutput" id="Rm_out"></div>
-      </div>
+    <div class="out">
+      <div class="control-label">Resolution (R<sub>m</sub>)</div> <br>
+      <div class="textoutput" id="Rm_out"></div>
+    </div>
 
-      <div class="out">
-        <div class="control-label">No. of PMA setpoints per decade (n<sub>c</sub>')
-        <span class="control-unit">#</span></div> <br>
-        <div class="textoutput" id="nc_out"></div>
-      </div>
+    <div class="out">
+      <div class="control-label">No. of PMA setpoints per decade (n<sub>c</sub>')
+        <span class="control-unit">#</span>
+      </div> <br>
+      <div class="textoutput" id="nc_out"></div>
+    </div>
 
-      <div class="out">
-        <div class="control-label">No. of SP2 bins per decade (n<sub>s</sub>')
-        <span class="control-unit">#</span></div> <br>
-        <div class="textoutput" id="ns_out"></div>
-      </div>
+    <div class="out">
+      <div class="control-label">No. of SP2 bins per decade (n<sub>s</sub>')
+        <span class="control-unit">#</span>
+      </div> <br>
+      <div class="textoutput" id="ns_out"></div>
+    </div>
 
-      <div class="out">
-        <div class="control-label">SP2 counts / PMA setpoint (N<sub>s</sub>)
-        <span class="control-unit">#</span></div> <br>
-        <div class="textoutput" id="Ns0_out"></div>
-      </div>
+    <div class="out">
+      <div class="control-label">SP2 counts / PMA setpoint (N<sub>s</sub>)
+        <span class="control-unit">#</span>
+      </div> <br>
+      <div class="textoutput" id="Ns0_out"></div>
+    </div>
 
-      <br>
+    <br>
 
-      <div class="out">
-        <div class="control-label">Actual time (t)
-        <span class="control-unit" id="time_out_unit">hrs</span></div> <br>
-        <div class="textoutput" id="time_out"></div>
-      </div>
+    <div class="out">
+      <div class="control-label">Actual time (t)
+        <span class="control-unit" id="time_out_unit">hrs</span>
+      </div> <br>
+      <div class="textoutput" id="time_out"></div>
+    </div>
 
-      <div class="out">
-        <div class="control-label">Actual correlation (R<sub>12</sub>)
-        <span class="control-unit">[0,1]</span></div> <br>
-        <div class="textoutput" id="R12_out"></div>
-      </div>
+    <div class="out">
+      <div class="control-label">Actual correlation (R<sub>12</sub>)
+        <span class="control-unit">[0,1]</span>
+      </div> <br>
+      <div class="textoutput" id="R12_out"></div>
+    </div>
 
-      <br>
+    <br>
 
-      <div class="out">
-        <div class="control-label">Error
-        <span class="control-unit"></span></div> <br>
-        <div class="textoutput" id="err_out" style="color:#FF6961;"></div>
-      </div>
+    <div class="out">
+      <div class="control-label">Error
+        <span class="control-unit"></span>
+      </div> <br>
+      <div class="textoutput" id="err_out" style="color:#FF6961;"></div>
+    </div>
     </p>
 
   </div>
