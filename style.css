@@ -36,7 +36,7 @@ a {
 }
 
 a:hover {
-  color: #9BD6FF;
+  color: #4C5FDF;
 }
 
 h2 {
@@ -94,11 +94,11 @@ div.control {
 }
 
 .textinput:hover {
-  border: 2px solid #9BD6FF;
+  border: 2px solid #4C5FDF;
 }
 
 .textinput:focus {
-  border: 2px solid #9BD6FF;
+  border: 2px solid #4C5FDF;
 }
 
 select {
@@ -114,7 +114,7 @@ select {
 }
 
 select:hover {
-  border: 2px solid #9BD6FF;
+  border: 2px solid #4C5FDF;
 }
 
 option {
@@ -129,6 +129,6 @@ div.out {
   vertical-align: text-top;
   margin-bottom: 25px;
   width: 120px;
-  color: #9BD6FF;
+  color: #4C5FDF;
   font-size: 24pt;
 }
