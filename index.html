@@ -80,7 +80,7 @@
 
         <!-- Phantom width image. Replaced accordingly in script. -->
         <div>
-          <img src="imgs/0.png" id="dist_img" style="height:100px;border:0.8px solid #333;border-radius:3pt;margin-top:3px;">
+          <img src="imgs/0.png" id="dist_img" style="height:100px;border:1px solid #555;border-radius:3pt;margin-top:3px;">
         </div>
       </div>
     </p>
@@ -117,7 +117,7 @@
 
       <div class="out">
         <div class="control-label">Actual time (t)
-        <span class="control-unit">hrs</span></div> <br>
+        <span class="control-unit" id="time_out_unit">hrs</span></div> <br>
         <div class="textoutput" id="time_out"></div>
       </div>
 
@@ -271,8 +271,13 @@
       time0 = filterA(Ntot, a, time, b, R12, c, time)[idx];
       if (time0 == "-") {  /* because of /60, explicitly check for "-" returned */
         document.getElementById("time_out").innerHTML = "-";
-      } else {
+      } else if (time0 > (1.5 * 60 * 60) ) {  /* display in hours */
         document.getElementById("time_out").innerHTML = (time0 / 60 / 60).toString().substr(0,4);
+        document.getElementById("time_out_unit").innerHTML = "hrs";
+      } else {  /* display in minutes */
+        console.log('hello')
+        document.getElementById("time_out").innerHTML = (time0 / 60).toString().substr(0,4);
+        document.getElementById("time_out_unit").innerHTML = "mins";
       }
 
       R120 = filterA(Ntot, a, time, b, R12, c, R12)[idx];
@@ -296,7 +301,7 @@
     <div class="main">
       <p>
         Created by
-        <a href="#">Arash Naseri</a>
+        <a href="mailto:arash@ualberta.ca">Arash Naseri</a>
         and
         <a href="github.com/tsipkens">Timothy Sipkens</a>
         at the University of Alberta.
