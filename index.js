@@ -1,10 +1,13 @@
-
 /* Reorg. into a set of arrays */
 Rm = [];
-ns = []; nc = [];
-Ns = []; Ntot = []; Ns_avg = [];
+ns = [];
+nc = [];
+Ns = [];
+Ntot = [];
+Ns_avg = [];
 R12 = [];
-time = []; lam = [];
+time = [];
+lam = [];
 err = [];
 for (ii = 0; ii < data.length; ii++) {
   Rm.push(data[ii].Rm);
@@ -27,7 +30,9 @@ function filterA(Ntot, a, time, b, R12, c, vec) {
 
   /* Filter by Ntot */
   /* Note a_factor is adopted from variable outside of function above */
-  outa = []; outt = []; outR1 = []
+  outa = [];
+  outt = [];
+  outR1 = []
   for (ii = 0; ii < Ntot.length; ii++) {
     if ((Ntot[ii] <= (a * a_factor)) && (Ntot[ii] >= (a / a_factor))) {
       outa.push(vec[ii]);
@@ -37,7 +42,8 @@ function filterA(Ntot, a, time, b, R12, c, vec) {
   }
 
   /* Filter by time */
-  outb = []; outR2 = [];
+  outb = [];
+  outR2 = [];
   for (tt = 0; tt < outt.length; tt++) {
     if (outt[tt] <= (b * 60 * 60)) {
       outb.push(outa[tt]);
@@ -82,7 +88,7 @@ function update() {
   b = document.getElementById("time_in").value;
   c = document.getElementById("R12_in").value;
 
-  err0 = filterA(Ntot, a, time, b, R12, c, err);  /* lowest error */
+  err0 = filterA(Ntot, a, time, b, R12, c, err); /* lowest error */
 
   /* Update range for Ntot. */
   document.getElementById("Ntot_in_down").innerHTML = (a / a_factor).toExponential(1);
@@ -90,7 +96,8 @@ function update() {
 
   /* Display number of simulations in filtered set */
   document.getElementById("no_out").innerHTML = err0.length.toString();
-  if (err0 == "-") {  /* in this case, correct to zero */
+  if (err0 == "-") {
+    /* in this case, correct to zero */
     document.getElementById("no_out").innerHTML = "0";
   }
 
@@ -99,38 +106,41 @@ function update() {
 
   /* Update the corresponding outputs */
   err0 = err0[idx];
-  document.getElementById("err_out").innerHTML = err0.toString().substr(0,5);
+  document.getElementById("err_out").innerHTML = err0.toString().substr(0, 5);
 
   Rm0 = filterA(Ntot, a, time, b, R12, c, Rm)[idx];
-  document.getElementById("Rm_out").innerHTML = Rm0.toString().substr(0,3);
+  document.getElementById("Rm_out").innerHTML = Rm0.toString().substr(0, 3);
 
   nc0 = filterA(Ntot, a, time, b, R12, c, nc)[idx];
-  document.getElementById("nc_out").innerHTML = nc0.toString().substr(0,5);
+  document.getElementById("nc_out").innerHTML = nc0.toString().substr(0, 5);
 
   ns0 = filterA(Ntot, a, time, b, R12, c, ns)[idx];
-  document.getElementById("ns_out").innerHTML = ns0.toString().substr(0,5);
+  document.getElementById("ns_out").innerHTML = ns0.toString().substr(0, 5);
 
   Ns0 = filterA(Ntot, a, time, b, R12, c, Ns)[idx];
-  document.getElementById("Ns0_out").innerHTML = Ns0.toString().substr(0,5);
+  document.getElementById("Ns0_out").innerHTML = Ns0.toString().substr(0, 5);
 
   /* Display and format time output */
   time0 = filterA(Ntot, a, time, b, R12, c, time)[idx];
-  if (time0 == "-") {  /* because of /60, explicitly check for "-" returned */
+  if (time0 == "-") {
+    /* because of /60, explicitly check for "-" returned */
     document.getElementById("time_out").innerHTML = "-";
-  } else if (time0 > (1.5 * 60 * 60) ) {  /* display in hours */
-    document.getElementById("time_out").innerHTML = (time0 / 60 / 60).toString().substr(0,4);
+  } else if (time0 > (1.5 * 60 * 60)) {
+    /* display in hours */
+    document.getElementById("time_out").innerHTML = (time0 / 60 / 60).toString().substr(0, 4);
     document.getElementById("time_out_unit").innerHTML = "hrs";
-  } else {  /* display in minutes */
-    document.getElementById("time_out").innerHTML = (time0 / 60).toString().substr(0,4);
+  } else {
+    /* display in minutes */
+    document.getElementById("time_out").innerHTML = (time0 / 60).toString().substr(0, 4);
     document.getElementById("time_out_unit").innerHTML = "mins";
   }
 
   R120 = filterA(Ntot, a, time, b, R12, c, R12)[idx];
-  document.getElementById("R12_out").innerHTML = R120.toString().substr(0,4);
+  document.getElementById("R12_out").innerHTML = R120.toString().substr(0, 4);
 
-  c = c.split(',');  /* interpret select value */
+  c = c.split(','); /* interpret select value */
   c1 = parseFloat(c[0]);
-  document.getElementById("dist_img").src = "imgs/" + c1.toString().substr(0,4) + ".png";
+  document.getElementById("dist_img").src = "imgs/" + c1.toString().substr(0, 4) + ".png";
 }
 
 update();
