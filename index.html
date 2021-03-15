@@ -17,8 +17,23 @@
 
     <p>
       This simple web app is designed to estimate the optimal experimental
-      parameters for tandem PMA-SP2 experiments. The app chooses the optimal
-      simulated error for a specific range of parameters about those chosen.
+      parameters for tandem PMA-SP2 experiments. The app uses data from
+      <a href="#">Naseri et al. (2021)</a>.
+    </p>
+
+    <p>
+      <img src="imgs/experiment.svg" style="width:100%;max-width:550px;margin-top:10px;">
+    </p>
+
+    <p>
+      Optimal experimental parameters are chosen as the minimum
+      simulated error for a specific range about those chosen input parameters.
+      For the number concentration, the range is up and down by a factor of sqrt(10),
+      thus spanning an interval of an order of magnitude. For time, the app considers
+      any simulation with a time below that specified. In other words, if the
+      optimal simulation occurs in half the time, that simulation is shown
+      in the output. For the correlation, specifying the width of the m<sub>p</sub>-m<sub>rBC</sub>
+      distribution, the range if shown explicitly in the dropdown menu.
     </p>
 
     <h2>Inputs</h2>
@@ -27,14 +42,24 @@
       <div class="control">
         <div class="control-label">No. concentration (N<sub>tot</sub>)
         <span class="control-unit">#/cm<sup>3</sup></span></div> <br>
-        <input class="textinput" id="Ntot_in" type="number" min="1" max="100000" value="3160">
+        <input class="textinput" id="Ntot_in" type="number" min="1" max="100000" value="3162.3"> <br>
+        <div class="control-unit">
+          (<div id="Ntot_in_down" style="display:inline;">1000</div> -
+          <div id="Ntot_in_up" style="display:inline;">10000</div>
+          #/cm<sup>3</sup>)
+        </div>
       </div>
 
       <div class="control">
         <div class="control-label">Time (t)
-        <span class="control-unit">hr</span></div> <br>
+        <span class="control-unit">hrs</span></div> <br>
         <input class="textinput" id="time_in" type="number" min="0.01" max="10" value="1.2">
+        <div class="control-unit">
+          (Maximum is 10 hrs)
+        </div>
       </div>
+
+      <br>
 
       <div class="control">
         <div class="control-label">Correlation (R<sub>12</sub>)
@@ -51,15 +76,16 @@
 
         <br>
 
+        <!-- Phantom width image. Replaced accordingly in script. -->
         <div>
-          <img src="imgs/0.png" id="dist_img" style="height:100px;border:1px solid #555;border-radius:2px;margin-top:5px;">
+          <img src="imgs/0.png" id="dist_img" style="height:100px;border:0.8px solid #333;border-radius:3pt;margin-top:3px;">
         </div>
       </div>
     </p>
 
-    <h2>Best simulation</h2>
+    <h2>Recommended parameters</h2>
 
-    of <div style="display:inline;" id="no_out"></div>
+    Lowest error of <div style="display:inline;" id="no_out"></div> simulations
 
     <p>
       <div class="out">
@@ -88,13 +114,13 @@
       <br>
 
       <div class="out">
-        <div class="control-label">Time (t)
-        <span class="control-unit">hr</span></div> <br>
+        <div class="control-label">Actual time (t)
+        <span class="control-unit">hrs</span></div> <br>
         <div class="textoutput" id="time_out"></div>
       </div>
 
       <div class="out">
-        <div class="control-label">Correlation (R<sub>12</sub>)
+        <div class="control-label">Actual correlation (R<sub>12</sub>)
         <span class="control-unit">[0,1]</span></div> <br>
         <div class="textoutput" id="R12_out"></div>
       </div>
@@ -135,14 +161,17 @@
       err.push(data[ii].Error);
     }
 
+    /* Factor up and down for Ntot. 3.16 ~ sqrt(10) to span one order of magnitude */
+    var a_factor = Math.sqrt(10);
 
     /* Function to filter out based on Ntot */
     function filterA(Ntot, a, time, b, R12, c, vec) {
 
       /* Filter by Ntot */
+      /* Note a_factor is adopted from variable outside of function above */
       outa = []; outt = []; outR1 = []
       for (ii = 0; ii < Ntot.length; ii++) {
-        if ((Ntot[ii] <= (a * 3.16)) && (Ntot[ii] >= (a / 3.16))) {
+        if ((Ntot[ii] <= (a * a_factor)) && (Ntot[ii] >= (a / a_factor))) {
           outa.push(vec[ii]);
           outt.push(time[ii]);
           outR1.push(R12[ii]);
@@ -209,6 +238,10 @@
 
       console.log(err0.length); /* number of simulations considered */
 
+      /* update range for Ntot */
+      document.getElementById("Ntot_in_down").innerHTML = Math.round(a / a_factor);
+      document.getElementById("Ntot_in_up").innerHTML = Math.round(a * a_factor);
+
       document.getElementById("no_out").innerHTML = err0.length.toString();
 
       idx = indexOfSmallest(err0);
@@ -217,7 +250,6 @@
       document.getElementById("err_out").innerHTML = err0.toString().substr(0,5);
 
       Rm0 = filterA(Ntot, a, time, b, R12, c, Rm)[idx];
-
       document.getElementById("Rm_out").innerHTML = Rm0.toString().substr(0,5);
 
       nc0 = filterA(Ntot, a, time, b, R12, c, nc)[idx];

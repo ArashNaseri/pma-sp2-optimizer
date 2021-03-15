@@ -34,11 +34,16 @@ p {
 
 a {
   transition: 0.3s;
+  color: black;
+}
+
+a:hover {
+  color: #9BD6FF;
 }
 
 h2 {
   font-size: 21pt;
-  padding-top: 25px;
+  padding-top: 30px;
   font-family: 'Open Sans';
   font-weight: 200;
 }
@@ -73,10 +78,10 @@ div.control {
 .textinput {
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 11pt;
-  border-radius: 3pt;
   font-weight: 300;
   padding: 5px 10px 5px 10px;
   border: 2px solid #E3E3E3;
+  border-radius: 3pt;
   background-color: white;
   transition: all 0.3s ease 0s;
   width: 80%;
