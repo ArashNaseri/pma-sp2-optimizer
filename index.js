@@ -116,7 +116,7 @@ function update() {
 
   ns0 = filterA(Ntot, a, time, b, R12, c, ns)[idx];
   if (ns0 > 100) {
-    document.getElementById("ns_out").innerHTML = "~100";
+    document.getElementById("ns_out").innerHTML = ">100";
   } else {
     document.getElementById("ns_out").innerHTML = ns0.toString().substr(0, 5);
   }
