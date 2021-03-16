@@ -8,6 +8,7 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: #FAFAFA;
 }
 
 body {
@@ -67,7 +68,7 @@ h2 {
   font-size: 11pt;
   padding-top: 20px;
   padding-bottom: 20px;
-  background: #FAFAFA;
+  background: #EEE;
   border-top: 1px solid #CCC;
 }
 
