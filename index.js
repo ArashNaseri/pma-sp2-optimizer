@@ -144,7 +144,7 @@ function update() {
 
   c = c.split(','); /* interpret select value */
   c1 = parseFloat(c[0]);
-  document.getElementById("dist_img").src = "imgs/" + c1.toString().substr(0, 4) + ".png";
+  document.getElementById("distimg").src = "imgs/" + c1.toString().substr(0, 4) + ".png";
 }
 
 update();

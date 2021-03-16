@@ -47,7 +47,7 @@ h1 {
   font-weight: 400;
   padding-bottom: 20pt;
   margin-bottom: 30pt;
-  border-bottom: 1px solid #999;
+  border-bottom: 1.5px solid #999;
 }
 
 .h1-line1 {
@@ -69,7 +69,7 @@ h2 {
   padding-top: 20px;
   padding-bottom: 20px;
   background: #EEE;
-  border-top: 1px solid #CCC;
+  border-top: 1.5px solid #CCC;
 }
 
 
@@ -104,7 +104,7 @@ div.control {
   font-size: 11pt;
   font-weight: 300;
   padding: 5px 10px 5px 10px;
-  border: 2px solid #E3E3E3;
+  border: 1.5px solid #CCC;
   border-radius: 3pt;
   background-color: white;
   transition: all 0.3s ease 0s;
@@ -112,11 +112,11 @@ div.control {
 }
 
 .textinput:hover {
-  border: 2px solid #2BA1AB;
+  border: 1.5px solid #2BA1AB;
 }
 
 .textinput:focus {
-  border: 2px solid #2BA1AB;
+  border: 1.5px solid #2BA1AB;
 }
 
 select {
@@ -125,7 +125,7 @@ select {
   border-radius: 3pt;
   font-weight: 300;
   padding: 5px 10px 5px 10px;
-  border: 2px solid #E3E3E3;
+  border: 1.5px solid #CCC;
   background-color: white;
   transition: all 0.3s ease 0s;
   width: 30%;
@@ -133,7 +133,7 @@ select {
 }
 
 select:hover {
-  border: 2px solid #2BA1AB;
+  border: 1.5px solid #2BA1AB;
 }
 
 option {
@@ -151,4 +151,11 @@ div.out {
   color: #2BA1AB;
   font-size: 24pt;
   line-height: 24pt;
+}
+
+#distimg {
+  width: 20%;
+  border: 1.5px solid #CCC;
+  border-radius: 3pt;
+  margin-top: 3px;
 }
