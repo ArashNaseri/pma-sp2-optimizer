@@ -142,7 +142,8 @@ function update() {
     document.getElementById("time_out_unit").innerHTML = "hrs";
   } else {
     /* display in minutes */
-    document.getElementById("time_out").innerHTML = (time0 / 60).toString().substr(0, 4);
+    time0 = Math.round(time0 / 60);  // convert to minutes and round to closest minute
+    document.getElementById("time_out").innerHTML = time0.toString().substr(0, 4);
     document.getElementById("time_out_unit").innerHTML = "mins";
   }
 
