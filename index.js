@@ -1,3 +1,4 @@
+
 /* Reorg. into a set of arrays */
 Rm = [];
 ns = [];
@@ -109,7 +110,11 @@ function update() {
   document.getElementById("err_out").innerHTML = err0.toString().substr(0, 5);
 
   Rm0 = filterA(Ntot, a, time, b, R12, c, Rm)[idx];
-  document.getElementById("Rm_out").innerHTML = Rm0.toString().substr(0, 3);
+  if (Rm0 < 0.2) {
+    document.getElementById("Rm_out").innerHTML = "<0.2";
+  } else {
+    document.getElementById("Rm_out").innerHTML = Rm0.toString().substr(0, 3);
+  }
 
   nc0 = filterA(Ntot, a, time, b, R12, c, nc)[idx];
   document.getElementById("nc_out").innerHTML = nc0.toString().substr(0, 5);
@@ -122,7 +127,9 @@ function update() {
   }
 
   Ns0 = filterA(Ntot, a, time, b, R12, c, Ns)[idx];
-  document.getElementById("Ns0_out").innerHTML = Ns0.toString().substr(0, 5);
+  Ns0 = Math.round(Ns0 / 100) * 100;  // round to nearest 100
+  document.getElementById("Ns0_out").innerHTML =
+    Ns0.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");  // adds commas to numbers
 
   /* Display and format time output */
   time0 = filterA(Ntot, a, time, b, R12, c, time)[idx];
