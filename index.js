@@ -24,7 +24,8 @@ for (ii = 0; ii < data.length; ii++) {
 }
 
 /* Factor up and down for Ntot. 3.16 ~ sqrt(10) to span one order of magnitude */
-var a_factor = Math.sqrt(10);
+/* sqrt(5) spans half an order of magnitude */
+var a_factor = Math.sqrt(5);
 
 /* Function to filter out based on Ntot */
 function filterA(Ntot, a, time, b, d, R12, c, vec) {
