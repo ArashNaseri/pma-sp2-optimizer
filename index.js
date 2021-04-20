@@ -127,7 +127,7 @@ function update() {
   }
 
   Ns0 = filterA(Ntot, a, time, b, R12, c, Ns)[idx];
-  Ns0 = Math.round(Ns0 / 100) * 100;  // round to nearest 100
+  Ns0 = Math.round(Ns0 / 100) / 10;  // round to nearest 100 and convert to 1000s
   document.getElementById("Ns0_out").innerHTML =
     Ns0.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");  // adds commas to numbers
 
