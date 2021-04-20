@@ -27,7 +27,7 @@ div.main {
 /* For gridding */
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   grid-gap: 32px;
   grid-auto-flow: dense;
 }
@@ -44,15 +44,9 @@ article {
   grid-column-end: 3;
 }
 
-.item2 {
-}
-
-.item3 {
-}
-
 /* Single column display for narrow displays */
-@media (max-width: 800px) {
-  .archive {
+@media (max-width: 750px) {
+  .grid-container {
     display: flex;
     flex-direction: column;
   }
