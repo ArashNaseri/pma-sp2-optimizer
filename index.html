@@ -60,10 +60,12 @@
         </div>
 
         <div class="control">
-          <div class="control-label">Time (t)
-            <span class="control-unit">hrs</span>
-          </div> <br>
-          <input class="textinput" id="time_in" type="number" min="0.01" max="10" value="1.2">
+          <div class="control-label">Time (t)</div> <br>
+          <input class="textinput" style="width:40%" id="time_in" type="number" min="0.01" max="10" value="1.2">
+          <select id="time_unit">
+            <option>mins</option>
+            <option selected="selected">hrs</option>
+          </select>
           <div class="control-unit">
             (Maximum is 10 hrs)
           </div>
@@ -100,21 +102,21 @@
         <p>
         <div class="out">
           <div class="control-label">Resolution (R<sub>m</sub>)</div> <br>
-          <div class="textoutput" id="Rm_out"></div>
+          <div class="textoutput" id="Rm_out">-</div>
         </div>
 
         <div class="out">
           <div class="control-label">No. of PMA setpoints per decade (n<sub>c</sub>')
             <span class="control-unit">#</span>
           </div> <br>
-          <div class="textoutput" id="nc_out"></div>
+          <div class="textoutput" id="nc_out">-</div>
         </div>
 
         <div class="out">
           <div class="control-label">No. of SP2 bins per decade (n<sub>s</sub>')
             <span class="control-unit">#</span>
           </div> <br>
-          <div class="textoutput" id="ns_out"></div>
+          <div class="textoutput" id="ns_out">-</div>
         </div>
 
         <div class="out">
@@ -123,7 +125,7 @@
           </div> <br>
           <div class="textoutput">
             <div style="display:inline-block">
-              <div id="Ns0_out" style="display:inline;"></div>k</div>
+              <div id="Ns0_out" style="display:inline;">-</div>k</div>
           </div>
         </div>
 
@@ -140,7 +142,7 @@
           <div class="control-label">Actual correlation (R<sub>12</sub>)
             <span class="control-unit">[0,1]</span>
           </div> <br>
-          <div class="textoutput2" id="R12_out"></div>
+          <div class="textoutput2" id="R12_out">-</div>
         </div>
 
         <br>
@@ -149,7 +151,7 @@
           <div class="control-label">Error
             <span class="control-unit"></span>
           </div> <br>
-          <div class="textoutput2" id="err_out"></div>
+          <div class="textoutput2" id="err_out">-</div>
         </div>
         </p>
       </article>

@@ -27,7 +27,7 @@ for (ii = 0; ii < data.length; ii++) {
 var a_factor = Math.sqrt(10);
 
 /* Function to filter out based on Ntot */
-function filterA(Ntot, a, time, b, R12, c, vec) {
+function filterA(Ntot, a, time, b, d, R12, c, vec) {
 
   /* Filter by Ntot */
   /* Note a_factor is adopted from variable outside of function above */
@@ -43,6 +43,7 @@ function filterA(Ntot, a, time, b, R12, c, vec) {
   }
 
   /* Filter by time */
+  if (d == "mins") { b = b / 60 }  /* accommodate minutes input */
   outb = [];
   outR2 = [];
   for (tt = 0; tt < outt.length; tt++) {
@@ -88,8 +89,9 @@ function update() {
   a = document.getElementById("Ntot_in").value;
   b = document.getElementById("time_in").value;
   c = document.getElementById("R12_in").value;
+  d = document.getElementById("time_unit").value;
 
-  err0 = filterA(Ntot, a, time, b, R12, c, err); /* lowest error */
+  err0 = filterA(Ntot, a, time, b, d, R12, c, err); /* lowest error */
 
   /* Update range for Ntot. */
   document.getElementById("Ntot_in_down").innerHTML = (a / a_factor).toExponential(1);
@@ -109,30 +111,30 @@ function update() {
   err0 = err0[idx];
   document.getElementById("err_out").innerHTML = err0.toString().substr(0, 5);
 
-  Rm0 = filterA(Ntot, a, time, b, R12, c, Rm)[idx];
+  Rm0 = filterA(Ntot, a, time, b, d, R12, c, Rm)[idx];
   if (Rm0 < 0.2) {
     document.getElementById("Rm_out").innerHTML = "<0.2";
   } else {
     document.getElementById("Rm_out").innerHTML = Rm0.toString().substr(0, 3);
   }
 
-  nc0 = filterA(Ntot, a, time, b, R12, c, nc)[idx];
+  nc0 = filterA(Ntot, a, time, b, d, R12, c, nc)[idx];
   document.getElementById("nc_out").innerHTML = nc0.toString().substr(0, 5);
 
-  ns0 = filterA(Ntot, a, time, b, R12, c, ns)[idx];
+  ns0 = filterA(Ntot, a, time, b, d, R12, c, ns)[idx];
   if (ns0 > 100) {
     document.getElementById("ns_out").innerHTML = ">100";
   } else {
     document.getElementById("ns_out").innerHTML = ns0.toString().substr(0, 5);
   }
 
-  Ns0 = filterA(Ntot, a, time, b, R12, c, Ns)[idx];
+  Ns0 = filterA(Ntot, a, time, b, d, R12, c, Ns)[idx];
   Ns0 = Math.round(Ns0 / 100) / 10;  // round to nearest 100 and convert to 1000s
   document.getElementById("Ns0_out").innerHTML =
     Ns0.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");  // adds commas to numbers
 
   /* Display and format time output */
-  time0 = filterA(Ntot, a, time, b, R12, c, time)[idx];
+  time0 = filterA(Ntot, a, time, b, d, R12, c, time)[idx];
   if (time0 == "-") {
     /* because of /60, explicitly check for "-" returned */
     document.getElementById("time_out").innerHTML = "-";
@@ -147,7 +149,7 @@ function update() {
     document.getElementById("time_out_unit").innerHTML = "mins";
   }
 
-  R120 = filterA(Ntot, a, time, b, R12, c, R12)[idx];
+  R120 = filterA(Ntot, a, time, b, d, R12, c, R12)[idx];
   document.getElementById("R12_out").innerHTML = R120.toString().substr(0, 4);
 
   c = c.split(','); /* interpret select value */
@@ -158,4 +160,5 @@ function update() {
 update();
 document.getElementById("Ntot_in").addEventListener("change", update);
 document.getElementById("time_in").addEventListener("change", update);
+document.getElementById("time_unit").addEventListener("change", update);
 document.getElementById("R12_in").addEventListener("change", update);
