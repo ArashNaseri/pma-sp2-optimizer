@@ -17,129 +17,141 @@
 
     <h1><span class="h1-line1">PMA-SP2</span><br>Optimizer</h1>
 
-    <p>
-      This simple web app is designed to estimate the optimal experimental
-      parameters for tandem PMA-SP2 experiments. The app uses data from
-      <a href="#">Naseri et al. (2021)</a>.
-    </p>
+    <div class="grid-container">
+      <article class="item1">
+        <h2>Overview</h2>
 
-    <p>
-      <img src="imgs/experiment.svg" style="width:100%;max-width:550px;margin-top:10px;">
-    </p>
+        <p>
+          This simple web app is designed to estimate the optimal experimental
+          parameters for tandem PMA-SP2 experiments. The app uses data from
+          <a href="#">Naseri et al. (2021)</a>.
+        </p>
 
-    <p>
-      Optimal experimental parameters are chosen as the minimum
-      simulated error for a specific range about those chosen input parameters.
-      For the number concentration, the range is up and down by a factor of sqrt(10),
-      thus spanning an interval of an order of magnitude. For time, the app considers
-      any simulation with a time below that specified. In other words, if the
-      optimal simulation occurs in half the time, that simulation is shown
-      in the output. For the correlation, specifying the width of the m<sub>p</sub>-m<sub>rBC</sub>
-      distribution, the range is shown explicitly in the dropdown menu.
-    </p>
+        <p>
+          <img src="imgs/experiment.svg" style="width:100%;max-width:550px;margin-top:10px;">
+        </p>
 
-    <h2>Inputs</h2>
+        <p>
+          Optimal experimental parameters are chosen as the minimum
+          simulated error for a specific range about those chosen input parameters.
+          For the number concentration, the range is up and down by a factor of sqrt(10),
+          thus spanning an interval of an order of magnitude. For time, the app considers
+          any simulation with a time below that specified. In other words, if the
+          optimal simulation occurs in half the time, that simulation is shown
+          in the output. For the correlation, specifying the width of the m<sub>p</sub>-m<sub>rBC</sub>
+          distribution, the range is shown explicitly in the dropdown menu.
+        </p>
+      </article>
 
-    <p>
-    <div class="control">
-      <div class="control-label">No. concentration (N<sub>tot</sub>)
-        <span class="control-unit">#/cm<sup>3</sup></span>
-      </div> <br>
-      <input class="textinput" id="Ntot_in" type="number" min="10" max="100000" value="3162.3"> <br>
-      <div class="control-unit">
-        (<div id="Ntot_in_down" style="display:inline;">1000</div> to
-        <div id="Ntot_in_up" style="display:inline;">10000</div>
-        #/cm<sup>3</sup>)
-      </div>
+      <article class="item2">
+        <h2>Inputs</h2>
+
+        <p>
+        <div class="control">
+          <div class="control-label">No. concentration (N<sub>tot</sub>)
+            <span class="control-unit">#/cm<sup>3</sup></span>
+          </div> <br>
+          <input class="textinput" id="Ntot_in" type="number" min="10" max="100000" value="3162.3"> <br>
+          <div class="control-unit">
+            (<div id="Ntot_in_down" style="display:inline;">1000</div> to
+            <div id="Ntot_in_up" style="display:inline;">10000</div>
+            #/cm<sup>3</sup>)
+          </div>
+        </div>
+
+        <div class="control">
+          <div class="control-label">Time (t)
+            <span class="control-unit">hrs</span>
+          </div> <br>
+          <input class="textinput" id="time_in" type="number" min="0.01" max="10" value="1.2">
+          <div class="control-unit">
+            (Maximum is 10 hrs)
+          </div>
+        </div>
+
+        <div class="control" style="width:400px;">
+          <div class="control-label">Correlation (R<sub>12</sub>)
+            <span class="control-unit">[0,1]</span>
+          </div> <br>
+          <select id="R12_in">
+            <option value="0.00,0.40">< 0.40</option>
+            <option value="0.40,0.55">0.40 - 0.55</option>
+            <option value="0.55,0.75" selected="selected">0.55 - 0.75</option>
+            <option value="0.75,0.90">0.75 - 0.90</option>
+            <option value="0.90,0.95">0.90 - 0.95</option>
+            <option value="0.95,0.98">0.95 - 0.98</option>
+            <option value="0.98,1.00">> 0.98</option>
+          </select>
+
+          <!-- Phantom width image. Replaced accordingly in script. -->
+          <div style="display:inline;">
+            <img src="imgs/0.png" id="distimg">
+          </div>
+        </div>
+        </p>
+      </article>
+
+
+      <article class="item3">
+        <h2>Recommended parameters</h2>
+
+        Lowest error of <div style="display:inline;" id="no_out"></div> simulations
+
+        <p>
+        <div class="out">
+          <div class="control-label">Resolution (R<sub>m</sub>)</div> <br>
+          <div class="textoutput" id="Rm_out"></div>
+        </div>
+
+        <div class="out">
+          <div class="control-label">No. of PMA setpoints per decade (n<sub>c</sub>')
+            <span class="control-unit">#</span>
+          </div> <br>
+          <div class="textoutput" id="nc_out"></div>
+        </div>
+
+        <div class="out">
+          <div class="control-label">No. of SP2 bins per decade (n<sub>s</sub>')
+            <span class="control-unit">#</span>
+          </div> <br>
+          <div class="textoutput" id="ns_out"></div>
+        </div>
+
+        <div class="out">
+          <div class="control-label">SP2 counts / PMA setpoint (N<sub>s</sub>)
+            <span class="control-unit">#</span>
+          </div> <br>
+          <div class="textoutput" id="Ns0_out"></div>
+        </div>
+
+        <br>
+
+        <div class="out">
+          <div class="control-label">Actual time (t)
+            <span class="control-unit" id="time_out_unit">hrs</span>
+          </div> <br>
+          <div class="textoutput2" id="time_out"></div>
+        </div>
+
+        <div class="out">
+          <div class="control-label">Actual correlation (R<sub>12</sub>)
+            <span class="control-unit">[0,1]</span>
+          </div> <br>
+          <div class="textoutput2" id="R12_out"></div>
+        </div>
+
+        <br>
+
+        <div class="out">
+          <div class="control-label">Error
+            <span class="control-unit"></span>
+          </div> <br>
+          <div class="textoutput2" id="err_out"></div>
+        </div>
+        </p>
+      </article>
+    
     </div>
-
-    <div class="control">
-      <div class="control-label">Time (t)
-        <span class="control-unit">hrs</span>
-      </div> <br>
-      <input class="textinput" id="time_in" type="number" min="0.01" max="10" value="1.2">
-      <div class="control-unit">
-        (Maximum is 10 hrs)
-      </div>
-    </div>
-
-    <div class="control" style="width:400px;">
-      <div class="control-label">Correlation (R<sub>12</sub>)
-        <span class="control-unit">[0,1]</span>
-      </div> <br>
-      <select id="R12_in">
-        <option value="0.00,0.40">< 0.40</option>
-        <option value="0.40,0.55">0.40 - 0.55</option>
-        <option value="0.55,0.75" selected="selected">0.55 - 0.75</option>
-        <option value="0.75,0.90">0.75 - 0.90</option>
-        <option value="0.90,0.95">0.90 - 0.95</option>
-        <option value="0.95,0.98">0.95 - 0.98</option>
-        <option value="0.98,1.00">> 0.98</option>
-      </select>
-
-      <!-- Phantom width image. Replaced accordingly in script. -->
-      <div style="display:inline;">
-        <img src="imgs/0.png" id="distimg">
-      </div>
-    </div>
-    </p>
-
-    <h2>Recommended parameters</h2>
-
-    Lowest error of <div style="display:inline;" id="no_out"></div> simulations
-
-    <p>
-    <div class="out">
-      <div class="control-label">Resolution (R<sub>m</sub>)</div> <br>
-      <div class="textoutput" id="Rm_out"></div>
-    </div>
-
-    <div class="out">
-      <div class="control-label">No. of PMA setpoints per decade (n<sub>c</sub>')
-        <span class="control-unit">#</span>
-      </div> <br>
-      <div class="textoutput" id="nc_out"></div>
-    </div>
-
-    <div class="out">
-      <div class="control-label">No. of SP2 bins per decade (n<sub>s</sub>')
-        <span class="control-unit">#</span>
-      </div> <br>
-      <div class="textoutput" id="ns_out"></div>
-    </div>
-
-    <div class="out">
-      <div class="control-label">SP2 counts / PMA setpoint (N<sub>s</sub>)
-        <span class="control-unit">#</span>
-      </div> <br>
-      <div class="textoutput" id="Ns0_out"></div>
-    </div>
-
-    <br>
-
-    <div class="out">
-      <div class="control-label">Actual time (t)
-        <span class="control-unit" id="time_out_unit">hrs</span>
-      </div> <br>
-      <div class="textoutput" id="time_out"></div>
-    </div>
-
-    <div class="out">
-      <div class="control-label">Actual correlation (R<sub>12</sub>)
-        <span class="control-unit">[0,1]</span>
-      </div> <br>
-      <div class="textoutput" id="R12_out"></div>
-    </div>
-
-    <br>
-
-    <div class="out">
-      <div class="control-label">Error
-        <span class="control-unit"></span>
-      </div> <br>
-      <div class="textoutput" id="err_out" style="color:#FF6961;"></div>
-    </div>
-    </p>
 
   </div>
 

@@ -8,20 +8,56 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: #FAFAFA;
+  background-color: #FCFCFC;
 }
 
 body {
   font-family: 'Open Sans', Arial, sans-serif;
   font-weight: 300;
-  font-size: 13pt;
+  font-size: 12pt;
 }
 
 div.main {
   margin: 0 auto;
-  max-width: 1000px;
-  width: 90%;
+  max-width: 1500px;
+  width: 95%;
 }
+
+
+/* For gridding */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  grid-gap: 32px;
+  grid-auto-flow: dense;
+}
+article {
+  padding: 20px;
+  background-color: white;
+  border: 1px solid #DDD;
+  border-radius: 2px;
+  box-shadow: 1px 1px 4px #DDD;
+}
+
+.item1 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.item2 {
+}
+
+.item3 {
+}
+
+/* Single column display for narrow displays */
+@media (max-width: 800px) {
+  .archive {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 
 p {
   text-align: left;
@@ -37,13 +73,13 @@ a {
 }
 
 a:hover {
-  color: #2BA1AB;
+  color: #FC4445;
 }
 
 h1 {
   font-size: 50pt;
   line-height: 50pt;
-  font-family: 'Open Sans', sans-serif;]
+  font-family: 'Open Sans', sans-serif;
   font-weight: 400;
   padding-bottom: 20pt;
   margin-bottom: 30pt;
@@ -51,7 +87,7 @@ h1 {
 }
 
 .h1-line1 {
-  color: #2BA1AB;
+  color: #FC4445;
   font-size: 35pt;
   line-height: 36pt;
   font-weight: 200;
@@ -59,16 +95,13 @@ h1 {
 
 h2 {
   font-size: 25pt;
-  padding-top: 30px;
   font-family: 'Open Sans';
   font-weight: 200;
 }
 
 .footer {
   font-size: 11pt;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  border-top: 1px solid #DDD;
+  padding-bottom: 30px;
 }
 
 
@@ -111,11 +144,13 @@ div.control {
 }
 
 .textinput:hover {
-  border: 1.5px solid #2BA1AB;
+  border: 1.5px solid #FC4445;
+  box-shadow: 0px 0px 4px #AAAAAA;
 }
 
 .textinput:focus {
-  border: 1.5px solid #2BA1AB;
+  border: 1.5px solid #FC4445;
+  box-shadow: 0px 0px 2px #AAAAAA;
 }
 
 select {
@@ -132,7 +167,8 @@ select {
 }
 
 select:hover {
-  border: 1.5px solid #2BA1AB;
+  border: 1.5px solid #FC4445;
+  box-shadow: 0px 0px 2px #AAAAAA;
 }
 
 option {
@@ -147,9 +183,13 @@ div.out {
   vertical-align: text-top;
   margin-bottom: 15px;
   width: 120px;
-  color: #2BA1AB;
+  color: #FC4445;
   font-size: 24pt;
   line-height: 24pt;
+}
+
+.textoutput2 {
+  color:#999999;
 }
 
 #distimg {
