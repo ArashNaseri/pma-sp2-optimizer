@@ -129,9 +129,13 @@ function update() {
   }
 
   Ns0 = filterA(Ntot, a, time, b, d, R12, c, Ns)[idx];
-  Ns0 = Math.round(Ns0 / 100) / 10;  // round to nearest 100 and convert to 1000s
-  document.getElementById("Ns0_out").innerHTML =
-    Ns0.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");  // adds commas to numbers
+  if (Ns0 == "-") {
+    document.getElementById("Ns0_out").innerHTML = "-";
+  } else {
+    Ns0 = Math.round(Ns0 / 100) / 10;  // round to nearest 100 and convert to 1000s
+    document.getElementById("Ns0_out").innerHTML =
+      Ns0.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }  // adds commas to numbers
 
   /* Display and format time output */
   time0 = filterA(Ntot, a, time, b, d, R12, c, time)[idx];
