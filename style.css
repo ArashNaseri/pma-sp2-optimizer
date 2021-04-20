@@ -75,7 +75,8 @@ h1 {
   line-height: 50pt;
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
-  margin-bottom: 30pt;
+  margin-top: 6px;
+  margin-bottom: 25pt;
 }
 
 .h1-line1 {
@@ -89,6 +90,8 @@ h2 {
   font-size: 25pt;
   font-family: 'Open Sans';
   font-weight: 200;
+  line-height: 26pt;
+  padding-bottom: 4pt;
 }
 
 .footer {
@@ -179,7 +182,7 @@ div.out {
   padding: 0px 20px 5px 0px;
   display: inline-block;
   vertical-align: text-top;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   width: 120px;
   color: #FC4445;
   font-size: 24pt;
