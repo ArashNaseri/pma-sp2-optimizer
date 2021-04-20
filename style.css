@@ -28,7 +28,7 @@ div.main {
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  grid-gap: 32px;
+  grid-gap: 25px;
   grid-auto-flow: dense;
 }
 article {
@@ -94,6 +94,12 @@ h2 {
 .footer {
   font-size: 11pt;
   padding-bottom: 30px;
+}
+
+.footer-sub {
+  width: 100%;
+  max-width: 470px;
+  font-size: 10pt;
 }
 
 
