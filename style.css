@@ -75,7 +75,7 @@ h1 {
   line-height: 50pt;
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
-  margin-top: 17px;
+  margin-top: 30px;
   margin-bottom: 25pt;
 }
 
@@ -101,7 +101,7 @@ h2 {
 
 .footer-sub {
   width: 100%;
-  max-width: 470px;
+  max-width: 650px;
   font-size: 10pt;
 }
 
